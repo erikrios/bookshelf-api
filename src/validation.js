@@ -6,7 +6,7 @@ const validateName = (name) => {
       },
     };
   }
-  return null;
+  return {};
 };
 
 const validateReadStatus = (readPage, pageCount) => {
@@ -17,7 +17,7 @@ const validateReadStatus = (readPage, pageCount) => {
       },
     };
   }
-  return null;
+  return {};
 };
 
 module.exports = { validateName, validateReadStatus };
