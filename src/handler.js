@@ -86,16 +86,16 @@ const getAllBooksHandler = (request) => {
   if (nameQuery !== undefined) {
     availableBooks = availableBooks.filter((book) => {
       const name = book.name.toLowerCase();
-      return name.contains(readingQuery.toLowerCase());
+      return name.includes(nameQuery.toLowerCase());
     });
   }
 
   if (readingQuery !== undefined) {
     availableBooks = availableBooks.filter((book) => {
-      if (readingQuery === 0) {
+      if (Number(readingQuery) === 0) {
         return book.reading === false;
       }
-      if (readingQuery === 1) {
+      if (Number(readingQuery) === 1) {
         return book.reading === true;
       }
       return book;
@@ -104,10 +104,10 @@ const getAllBooksHandler = (request) => {
 
   if (finishedQuery !== undefined) {
     availableBooks = availableBooks.filter((book) => {
-      if (finishedQuery === 0) {
+      if (Number(finishedQuery) === 0) {
         return book.finished === false;
       }
-      if (finishedQuery === 1) {
+      if (Number(finishedQuery) === 1) {
         return book.finished === true;
       }
       return book;
