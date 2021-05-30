@@ -1,5 +1,6 @@
 const { nanoid } = require('nanoid');
 const books = require('./books');
+const { validateName, validateReadStatus } = require('./validation');
 
 const addBookHandler = (request, h) => {
   const {
@@ -13,19 +14,21 @@ const addBookHandler = (request, h) => {
     reading,
   } = request.payload;
 
-  if (!name) {
+  const { error: nameValidationError } = validateName(name);
+  if (nameValidationError) {
     const response = h.response({
       status: 'fail',
-      message: 'Gagal menambahkan buku. Mohon isi nama buku',
+      message: `Gagal menambahkan buku. ${nameValidationError.message}`,
     });
     response.code(400);
     return response;
   }
 
-  if (readPage > pageCount) {
+  const { error: readStatusValidationError } = validateReadStatus(readPage, pageCount);
+  if (readStatusValidationError) {
     const response = h.response({
       status: 'fail',
-      message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
+      message: `Gagal menambahkan buku. ${readStatusValidationError.message}`,
     });
     response.code(400);
     return response;
@@ -122,19 +125,21 @@ const editNoteByIdHandler = (request, h) => {
     reading,
   } = request.payload;
 
-  if (!name) {
+  const { error: nameValidationError } = validateName(name);
+  if (nameValidationError) {
     const response = h.response({
       status: 'fail',
-      message: 'Gagal memperbarui buku. Mohon isi nama buku',
+      message: `Gagal memperbarui buku. ${nameValidationError.message}`,
     });
     response.code(400);
     return response;
   }
 
-  if (readPage > pageCount) {
+  const { error: readStatusValidationError } = validateReadStatus(readPage, pageCount);
+  if (readStatusValidationError) {
     const response = h.response({
       status: 'fail',
-      message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+      message: `Gagal memperbarui buku. ${readStatusValidationError.message}`,
     });
     response.code(400);
     return response;
